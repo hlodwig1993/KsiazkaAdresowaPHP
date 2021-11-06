@@ -147,71 +147,7 @@
 	<link rel="stylesheet" href="style.css" type="text/css"/>
 	<link href="https://fonts.googleapis.com/css?family=Anton|Pacifico&amp;subset=latin-ext" rel="stylesheet">
 
-	<script>
-	window.onload = function() 
-	{
-		
-		var chart_with_incomes = new CanvasJS.Chart("chartIncomesContainer", 
-			{
-				animationEnabled: true,
-				title: 
-				{
-					text: "Summary of your incomes"
-				},
-				data: [
-				{
-					type: "pie",
-					startAngle: 270,
-					yValueFormatString: "##0.00\"\"",
-					indexLabel: "{label} {y}",
-					dataPoints: 
-					[
-						<?php
-							while ($row_with_incomes = $_SESSION['result_incomes']->fetch_assoc())
-							{
-								$amount = $row_with_incomes['SUM(inc.amount)'];
-								$name = $row_with_incomes['name'];
-								echo "{y: " . $amount . ", label: \" $name \"},";
-							}
-							$_SESSION['result_incomes']->data_seek(0); 
-						?>
-					]
-				}]
-			});
-			
-		chart_with_incomes.render();
-		
-		var chart_with_expenses = new CanvasJS.Chart("chartExpensesContainer", 
-			{
-				animationEnabled: true,
-				title: 
-				{
-					text: "Summary of your expenses"
-				},
-				data: [
-				{
-					
-					type: "pie",
-					startAngle: 270,
-					yValueFormatString: "##0.00\"\"",
-					indexLabel: "{label} {y}",
-					dataPoints: 
-					[
-						<?php
-							while ($row_with_expenses = $_SESSION['result_expenses']->fetch_assoc())
-							{
-								$amount = $row_with_expenses['SUM(exp.amount)'];
-								$name = $row_with_expenses['name'];
-								echo "{y: " . $amount . ", label: \" $name \"},";
-							}
-							$_SESSION['result_expenses']->data_seek(0); 
-						?>
-					]
-				}]
-			});
-		chart_with_expenses.render();
-	}
-	</script>
+	
 </head>
 <body class="bg-custom">
 	<header>
@@ -256,17 +192,18 @@
 <main>
 		<article class="text-center">
 			
-			<div class="container bg-white col-12 col-lg-10 col-xl-8 mt-lg-2 ">
+		<div class="container bg-gray  mt-lg-2 ">
 		
 		<fieldset>
 		
 			<legend > Twoje finanse </legend>
 			
 			<form method="post">
-				<div class="input-group mb-2 w-100 mx-auto">
-					<div class="input-group w-50">
+				<div class="input-group mb-2 w-150 justify-content-around">
+					<div class="input-group w-100">
 						<span class="input-group-text w-100 justify-content-center">Wybierz przedział czasowy</span>
 					</div>
+					<div class="input-group w-100 justify-content-around">
 					<select id="periodsOptions" name="periodsOptions" class="input-group-text w-50" onchange="if(this.options[this.selectedIndex].value!='custom'){ this.form.submit(); }">
 						<option value="current_month" <?php 
 										if(!isset($_POST['periodsOptions']) || $_POST['periodsOptions'] == "current_month")
@@ -308,7 +245,8 @@
 											echo '';
 										}
 										?>>Dowolny przedział czasowy</option>
-					</select>	
+					</select>
+					</div>
 				</div>
 			</form>
 
@@ -370,12 +308,12 @@
 			
 				<legend > Twoje przychody </legend>
 			  
-				<div class="d-md-flex justify-content">
+				<div class="d-md-flex justify-content-around">
 					<table class="table-striped table-dark  col-12 col-md-6">
 						<thead>
 							<tr>
-								<th >Category</th>
-								<th >Amount</th>
+								<th >Kategoria</th>
+								<th >Kwota</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -391,7 +329,7 @@
 							?>
 						<thead>
 							 <tr>
-								<th>Total</th>
+								<th>Suma</th>
 								<?php										
 									$sum_of_income = $_SESSION['sum_of_income'];
 									echo "<th>" . $sum_of_income . "</th>";
@@ -399,22 +337,18 @@
 							</tr>
 						</thead>
 						</tbody>
+						
 					</table>
-									
-					<?php 
-						if($_SESSION['result_incomes']->num_rows > 0)
+					
+					<?php
+						if(!$_SESSION['result_incomes']->num_rows > 0)
 						{
-							echo '<div id="chartIncomesContainer" class="col-11 col-md-5">';
-							echo '<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>';
-							echo '</div>';
-						}
-						else
-						{
-							echo '<span style="color:red;"><br />   Nie masz przychodów w wybranym okresie czasowym</span>';
+							echo '<span style="color:red;"><br />Nie masz przychodów w wybranym okresie czasowym</span>';
 						}
 						$_SESSION['result_incomes']->data_seek(0);
-					?>
-				
+					?>	
+					
+					
 				</div>	
 			</fieldset>
 			<br>
@@ -427,8 +361,8 @@
 					<table class="table-striped table-dark  col-12 col-md-6">
 						<thead>
 							<tr>
-								<th >Category</th>
-								<th >Amount</th>
+								<th >Kategoria</th>
+								<th >Kwota</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -443,7 +377,7 @@
 							?>
 						<thead>
 							 <tr>
-								<th>Total</th>
+								<th>Suma</th>
 								<?php										
 									$sum_of_expense = $_SESSION['sum_of_expense'];
 									echo "<th>" . $sum_of_expense . "</th>";
@@ -452,20 +386,14 @@
 						</thead>
 						</tbody>
 					</table>
-									
 					<?php
-						if($_SESSION['result_expenses']->num_rows > 0)
+						if(!$_SESSION['result_expenses']->num_rows > 0)
 						{
-							echo '<div id="chartExpensesContainer" class="col-11 col-md-6">';
-							echo '<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>';
-							echo '</div>';
-						}
-						else
-						{
-							echo '<span style="color:red;"><br />Nie masz przychodów w wybranym okresie czasowym</span>';
+							echo '<span style="color:red;"><br />Nie masz wydatków w wybranym okresie czasowym</span>';
 						}
 						$_SESSION['result_expenses']->data_seek(0);
 					?>	
+					
 				</div>	
 			</fieldset>
 		</fieldset>

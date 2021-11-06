@@ -39,36 +39,29 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 		
-			<div class="collapse navbar-collapse" id="mainmenu">
-			
-				<ul class="navbar-nav mr-auto ml-4">
+			<div class="collapse navbar-collapse" id="navbarCollapse">
 				
+				<ul class="navbar-nav mx-auto ">
 					<li class="nav-item">
-						<a class="nav-link" href="addIncome.php"> Dodaj Przychód</a>
+						<a href="#" class="nav-link">Strona Główna</a>
 					</li>
-					
-						
-					</li>
-					
 					<li class="nav-item">
-						<a class="nav-link" href="addExpense.php">Dodaj Wydatek </a>
+						<a href="#" class="nav-link">Dodaj Przychód</a>
 					</li>
-					
 					<li class="nav-item">
-						<a class="nav-link" href="balance.php"> Przeglądaj Bilans</a>
+						<a href="#" class="nav-link">Dodaj Wydatek</a>
 					</li>
-					
 					<li class="nav-item">
-						<a class="nav-link" href="#"> Ustawienia </a>
+						<a href="#" class="nav-link">Bilans</a>
 					</li>
-				
+					<li class="nav-item">
+						<a href="#" class="nav-link">Ustawienia</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">Wyloguj</a>
+					</li>
 				</ul>
-			
-				<form class="form-inline" action="logout.php" >
-					<button class="btn btn-light" type="submit">Wyloguj</button>
 				
-				</form>
-			
 			</div>
 		
 		</nav>
